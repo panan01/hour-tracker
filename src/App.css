@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+  background-color: black;
+}
+
+.full-height {
+  padding-top: 15%;
+  background-color: black;
+  height: 100dvh;
+}
+
+.index-text{
+  color: white;
+}

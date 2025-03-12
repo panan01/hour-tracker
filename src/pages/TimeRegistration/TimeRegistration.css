@@ -1,0 +1,39 @@
+.TimeRegistration {
+    padding-top: 10px;
+    /* padding-left: 20px; */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.datePicker {
+    padding-top: 5px;
+
+}
+
+/* .timePickerDiv {
+    display: flex;
+    padding-top: 20px;
+} */
+
+.timePicker {
+    padding-top: 20px;
+    /* padding-right: 20px; */
+}
+
+.workedTime {
+    display: flex;
+    margin-left: 25px;
+    /* justify-content: center; */
+}
+
+.workedTime p {
+    padding-right: 20px;
+    font-size: 20px;
+}
+
+.hour {
+    color: #2d76d0;
+    font-weight: 1000;
+}

@@ -1,69 +1,110 @@
-import "./WorkSummary.css";
-import React from "react";
-import { useEffect, useState } from "react";
-import Header from "../../header/Header";
-import dayjs from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import './WorkSummary.css';
 
-function WorkSummary() {
-    const [fromDate, setFromDate] = useState(dayjs(Date.Date));
-    const [tillDate, setTillDate] = useState(dayjs(Date.Date));
-    
-    
-    const handleRequest = () => {
-        // Send POST request to the server
-        const data = {
-            fromDate: fromDate.format('YYYY-MM-DD'),
-            tillDate: tillDate.format('YYYY-MM-DD')
-        }
-        fetch('http://localhost:5000/work_summary', { 
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => {
-            // render the response into a table
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            // render the response into a table
-            
-        }
-        )
-    }
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Header from '../../header/Header';
 
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import dayjs from 'dayjs';
+
+
+
+
+export default function WorkSummary() {
+    const [startDate, setStartDate] = useState(dayjs());
+    const [endDate, setEndDate] = useState(dayjs());
+    const [workLog, setWorkLog] = useState([]);
+    const [totalHours, setTotalHours] = useState(0);
+    
+
+    useEffect(() => {
+        handleFetchWorkLog();
+
+    }, [startDate, endDate]);
+
+    useEffect(() => {
+        setTotalHours(workLog.reduce((sum, { worked_hour }) => sum + Number(worked_hour), 0));
+    }, [workLog]);
+    const handleFetchWorkLog = () => {
+        const body = {
+            startDate: startDate.format('YYYY-MM-DD'),
+            endDate: endDate.format('YYYY-MM-DD'),
+        };
+
+        fetch('http://localhost:5000/time_registration', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        })
+            .then((response) => response.json())
+            .then((data) => setWorkLog(data))
+            .catch((error) => console.error('Error:', error));
+        console.log('workLog:', workLog);
+    };
 
     return (
         <>
-            <Header></Header>
-            <div className="WorkSummary">
-                <h1>Work Summary</h1>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <div components={["DatePicker", "DatePicker"]} className="datePicker">
-                        <DatePicker
-                            label="From Date"
-                            value={fromDate}
-                            onChange={(newValue) => setFromDate(newValue)}
-                        />
-                        <DatePicker
-                            label="Till Date"
-                            value={tillDate}
-                            onChange={(newValue) => setTillDate(newValue)}
-                            />
-                    </div>
-                    <button onClick={handleRequest}>Extract</button>
-                </LocalizationProvider>
+            <Header />
+            <div className="workSummary">
+            <h1>Work Summary</h1>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <div className="datePicker">
+                    <DatePicker
+                        label="Start Date"
+                        value={startDate}
+                        onChange={(newValue) => setStartDate(newValue)}
+                    />
+                </div>
+                <div className="datePicker">
+                    <DatePicker
+                        label="End Date"
+                        value={endDate}
+                        onChange={(newValue) => setEndDate(newValue)}
+                    />
+                </div>
+            </LocalizationProvider>
+            <div className='table'>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 350 }} size="large" aria-label="a dense table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Date</TableCell>
+                            <TableCell align="left">Start Time</TableCell>
+                            <TableCell align="left">End Time</TableCell>
+                            <TableCell align="left">Hours</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {workLog.map((item, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{item.work_date}</TableCell>
+                                <TableCell align="left">{item.start_time}</TableCell>
+                                <TableCell align="left">{item.end_time}</TableCell>
+                                <TableCell align="left">{item.worked_hour}</TableCell>
+                            </TableRow>
+                        ))}
+                        <TableRow>
+                            <TableCell></TableCell>
+                            <TableCell align="left"></TableCell>
+                            <TableCell align="left"><a className='total'>Total</a></TableCell>
+                            <TableCell align="left" ><a className="total_number">{totalHours}</a></TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </TableContainer>
             </div>
+            </div>
+
         </>
     );
 }
-
-export default WorkSummary;

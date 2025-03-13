@@ -9,6 +9,7 @@
     "@mui/styles": "^6.4.7",
     "@mui/system": "^6.4.7",
     "@mui/x-date-pickers": "^7.27.1",
+    "@mui/x-date-pickers-pro": "^7.27.3",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",

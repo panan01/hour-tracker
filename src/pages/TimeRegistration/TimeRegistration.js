@@ -22,7 +22,7 @@ function TimeRegistration() {
         setWorkedTime(diff.toFixed(2));
     }, [startTime,endTime,workedTime]); 
 
-    const hendleSubmit = () => {
+    const handleSubmit = () => {
         // Send POST request to the server
         const data = {
             date: date.format('YYYY-MM-DD'),
@@ -31,7 +31,7 @@ function TimeRegistration() {
             workedTime: workedTime
         }
         fetch('http://localhost:5000/time_registration', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -80,7 +80,7 @@ function TimeRegistration() {
             <p className='hour'>{workedTime} </p>
             <p>hours</p>
         </div>
-              <Button variant="contained" onClick={hendleSubmit}>Submit</Button>
+              <Button variant="contained" onClick={handleSubmit}>Submit</Button>
 
         </div>
         </>

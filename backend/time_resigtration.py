@@ -19,7 +19,7 @@ conn = pg.connect(
 
 app = Flask(__name__)
 CORS(app)
-@app.route('/time_registration', methods=['POST'])
+@app.route('/time_registration', methods=['PUT'])
 def time_registration():
     data = request.json
     #write to the database
@@ -28,15 +28,28 @@ def time_registration():
     conn.commit()
     return ('', 204)
 
-@app.route('/time_registration', methods=['GET'])
+@app.route('/time_registration', methods=['POST'])
 def get_time_registration():
+    body = request.get_json()
+    start_date = body.get('startDate')
+    end_date = body.get('endDate')
     cur = conn.cursor()
-    cur.execute('SELECT * FROM work_hour_log')
-    result = cur.fetchall()
-    return jsonify(result)
+    cur.execute('SELECT * FROM work_hour_log WHERE work_date >= %s AND work_date <= %s', (start_date, end_date))
+    rows = cur.fetchall()
+    serialized = []
+    for r in rows:
+        serialized.append({
+            'id': r[4],
+            'work_date': r[0].isoformat(),
+            'start_time': r[1].strftime('%H:%M:%S'),
+            'end_time': r[2].strftime('%H:%M:%S'),
+            'worked_hour': r[3]
+        })
+    return jsonify(serialized), 200
 
 @app.route('/time_registration', methods=['DELETE'])
 def delete_time_registration():
     pass
+
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(port=5000, debug=True)

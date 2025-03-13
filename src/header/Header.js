@@ -24,7 +24,7 @@ export default function Header() {
                 <ul>
                     <li><a href="/login" onClick={() => setMenuOpen(false)}>Login</a></li>
                     <li><a href="/timeRegistration" onClick={() => setMenuOpen(false)}>Time Registration</a></li>
-                    <li><a href="/work-summary" onClick={() => setMenuOpen(false)}>Work Summary</a></li>
+                    <li><a href="/workSummary" onClick={() => setMenuOpen(false)}>Work Summary</a></li>
                 </ul>
             </nav>
         </header>

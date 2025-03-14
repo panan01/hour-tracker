@@ -41,7 +41,7 @@ export default function WorkSummary() {
             endDate: endDate.format('YYYY-MM-DD'),
         };
 
-        fetch('http://localhost:5000/time_registration', {
+        fetch('http://an-pan.me:5000/time_registration', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),

@@ -7,8 +7,6 @@ from flask_cors import CORS
 
 load_dotenv(override=True)
 
-print(os.getenv('DB_PASSWORD'))
-
 # Create a connection to the database
 conn = pg.connect(
     host='an-pan.me',
@@ -52,4 +50,4 @@ def delete_time_registration():
     pass
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)

@@ -30,7 +30,7 @@ function TimeRegistration() {
             endTime: endTime.format('HH:mm'),
             workedTime: workedTime
         }
-        fetch('http://localhost:5000/time_registration', {
+        fetch('http://an-pan.me:5000/time_registration', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

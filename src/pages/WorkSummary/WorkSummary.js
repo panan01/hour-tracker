@@ -25,7 +25,7 @@ export default function WorkSummary() {
     const [endDate, setEndDate] = useState(dayjs());
     const [workLog, setWorkLog] = useState([]);
     const [totalHours, setTotalHours] = useState(0);
-    
+
 
     useEffect(() => {
         handleFetchWorkLog();
@@ -33,7 +33,9 @@ export default function WorkSummary() {
     }, [startDate, endDate]);
 
     useEffect(() => {
-        setTotalHours(workLog.reduce((sum, { worked_hour }) => sum + Number(worked_hour), 0));
+        var workhr = workLog.reduce((sum, { worked_hour }) => sum + Number(worked_hour), 0);
+        setTotalHours(workhr.toFixed(2))
+
     }, [workLog]);
     const handleFetchWorkLog = () => {
         const body = {
@@ -56,53 +58,59 @@ export default function WorkSummary() {
         <>
             <Header />
             <div className="workSummary">
-            <h1>Work Summary</h1>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <div className="datePicker">
-                    <DatePicker
-                        label="Start Date"
-                        value={startDate}
-                        onChange={(newValue) => setStartDate(newValue)}
-                    />
+                <h1>Work Summary</h1>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <div className="datePicker">
+                        <DatePicker
+                            label="Start Date"
+                            value={startDate}
+                            onChange={(newValue) => setStartDate(newValue)}
+                        />
+                    </div>
+                    <div className="datePicker">
+                        <DatePicker
+                            label="End Date"
+                            value={endDate}
+                            onChange={(newValue) => setEndDate(newValue)}
+                        />
+                    </div>
+                </LocalizationProvider>
+                <div className='table'>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 350 }} size="large" aria-label="a dense table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Date</TableCell>
+                                    <TableCell align="left">Start Time</TableCell>
+                                    <TableCell align="left">End Time</TableCell>
+                                    <TableCell align="left">Hours</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {workLog.map((item, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{item.work_date}</TableCell>
+                                        <TableCell align="left">{item.start_time}</TableCell>
+                                        <TableCell align="left">{item.end_time}</TableCell>
+                                        <TableCell align="left">{item.worked_hour}</TableCell>
+                                    </TableRow>
+                                ))}
+                                <TableRow>
+                                    <TableCell></TableCell>
+                                    <TableCell align="left"></TableCell>
+                                    <TableCell align="left"><a className='total'>Total</a></TableCell>
+                                    <TableCell align="left" ><a className="total_number">{totalHours}</a></TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell></TableCell>
+                                    <TableCell align="left"></TableCell>
+                                    <TableCell align="left"><a className='total'>EI.</a></TableCell>
+                                    <TableCell align="left" ><a className="total_number">{(totalHours * 15.3).toFixed(2)}</a></TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </div>
-                <div className="datePicker">
-                    <DatePicker
-                        label="End Date"
-                        value={endDate}
-                        onChange={(newValue) => setEndDate(newValue)}
-                    />
-                </div>
-            </LocalizationProvider>
-            <div className='table'>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 350 }} size="large" aria-label="a dense table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Date</TableCell>
-                            <TableCell align="left">Start Time</TableCell>
-                            <TableCell align="left">End Time</TableCell>
-                            <TableCell align="left">Hours</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {workLog.map((item, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{item.work_date}</TableCell>
-                                <TableCell align="left">{item.start_time}</TableCell>
-                                <TableCell align="left">{item.end_time}</TableCell>
-                                <TableCell align="left">{item.worked_hour}</TableCell>
-                            </TableRow>
-                        ))}
-                        <TableRow>
-                            <TableCell></TableCell>
-                            <TableCell align="left"></TableCell>
-                            <TableCell align="left"><a className='total'>Total</a></TableCell>
-                            <TableCell align="left" ><a className="total_number">{totalHours}</a></TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            </div>
             </div>
 
         </>

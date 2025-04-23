@@ -22,7 +22,7 @@ export default function Header() {
             {/* Navigation Menu */}
             <nav className={`nav-menu ${menuOpen ? "open" : ""}`}>
                 <ul>
-                    <li><a href="/login" onClick={() => setMenuOpen(false)}>Login</a></li>
+                    {/* <li><a href="/login" onClick={() => setMenuOpen(false)}>Login</a></li> */}
                     <li><a href="/timeRegistration" onClick={() => setMenuOpen(false)}>Time Registration</a></li>
                     <li><a href="/workSummary" onClick={() => setMenuOpen(false)}>Work Summary</a></li>
                 </ul>

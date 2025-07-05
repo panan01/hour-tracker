@@ -32,7 +32,7 @@ def get_time_registration():
     start_date = body.get('startDate')
     end_date = body.get('endDate')
     cur = conn.cursor()
-    cur.execute('SELECT * FROM work_hour_log WHERE work_date >= %s AND work_date <= %s', (start_date, end_date))
+    cur.execute('SELECT * FROM work_hour_log WHERE work_date >= %s AND work_date <= %s ORDER BY work_date ASC', (start_date, end_date))
     rows = cur.fetchall()
     serialized = []
     for r in rows:

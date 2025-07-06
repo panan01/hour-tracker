@@ -22,6 +22,10 @@
     /* padding-right: 20px; */
 }
 
+.locationPicker {
+    padding-top: 20px;
+}
+
 .workedTime {
     display: flex;
     margin-left: 25px;

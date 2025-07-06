@@ -84,6 +84,7 @@ export default function WorkSummary() {
                                     <TableCell align="left">Start Time</TableCell>
                                     <TableCell align="left">End Time</TableCell>
                                     <TableCell align="left">Hours</TableCell>
+                                    <TableCell align="left">Location</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -93,6 +94,7 @@ export default function WorkSummary() {
                                         <TableCell align="left">{item.start_time}</TableCell>
                                         <TableCell align="left">{item.end_time}</TableCell>
                                         <TableCell align="left">{item.worked_hour}</TableCell>
+                                        <TableCell align='left'>{item.location}</TableCell>
                                     </TableRow>
                                 ))}
                                 <TableRow>

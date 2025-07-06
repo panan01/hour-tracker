@@ -9,11 +9,18 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import Button from '@mui/material/Button';
 
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 
 function TimeRegistration() {
     const [date, setDate] = useState(dayjs(Date.Date));
     const [startTime, setStartTime] = useState(dayjs(Date.Time))
     const [endTime, setEndTime] = useState(dayjs(Date.Time))
+    const [location, setLocation] = useState('');
     var [workedTime, setWorkedTime] = useState(0);
 
     useEffect(() => {
@@ -28,7 +35,8 @@ function TimeRegistration() {
             date: date.format('YYYY-MM-DD'),
             startTime: startTime.format('HH:mm'),
             endTime: endTime.format('HH:mm'),
-            workedTime: workedTime
+            workedTime: workedTime,
+            location: location
         }
         fetch('http://an-pan.me:5000/time_registration', {
             method: 'PUT',
@@ -72,6 +80,23 @@ function TimeRegistration() {
             value={endTime}
             onChange={(newValue) => setEndTime(newValue)}
             />
+            </div>
+            <div className='locationPicker'>
+            <Box sx={{ minWidth: 120 }}>
+                <FormControl fullWidth>
+                <InputLabel id="work-location-select-label">Work Location</InputLabel>
+                <Select
+                    labelId="work-location-select-label"
+                    id="work-location-select"
+                    value={location}
+                    label="Work Location"
+                    onChange={(newValue) => setLocation(newValue.target.value)}
+                    >
+                    <MenuItem value={'Valley'}>Valley</MenuItem>
+                    <MenuItem value={'Gelderlandplein'}>Gelderlandplein</MenuItem>
+                </Select>
+            </FormControl>
+            </Box>
             </div>
         </div>
         </LocalizationProvider>

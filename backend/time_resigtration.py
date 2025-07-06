@@ -22,7 +22,7 @@ def time_registration():
     data = request.json
     #write to the database
     cur = conn.cursor()
-    cur.execute('INSERT INTO work_hour_log (work_date, start_time, end_time, worked_hour) VALUES (%s, %s, %s, %s)', (data['date'], data['startTime'], data['endTime'], data['workedTime']))
+    cur.execute('INSERT INTO work_hour_log (work_date, start_time, end_time, worked_hour, location) VALUES (%s, %s, %s, %s, %s)', (data['date'], data['startTime'], data['endTime'], data['workedTime'], data['location']))
     conn.commit()
     return ('', 204)
 
@@ -41,7 +41,8 @@ def get_time_registration():
             'work_date': r[0].isoformat(),
             'start_time': r[1].strftime('%H:%M:%S'),
             'end_time': r[2].strftime('%H:%M:%S'),
-            'worked_hour': r[3]
+            'worked_hour': r[3],
+            'location': r[5]
         })
     return jsonify(serialized), 200
 

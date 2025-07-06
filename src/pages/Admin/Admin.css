@@ -1,0 +1,15 @@
+.adminPage {
+    padding-top: 10px;
+    /* padding-left: 20px; */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.addWorkForm {
+    padding-top: 20px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}

@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TimeRegistration from './pages/TimeRegistration/TimeRegistration';
 import Login from './pages/Login/Login';
 import WorkSummary from './pages/WorkSummary/WorkSummary';
+import Admin from './pages/Admin/Admin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,6 +24,7 @@ root.render(
         <Route path="/timeRegistration" element={<TimeRegistration />} />
         <Route path= "/login" element={<Login />} />
         <Route path="/workSummary" element={<WorkSummary />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
